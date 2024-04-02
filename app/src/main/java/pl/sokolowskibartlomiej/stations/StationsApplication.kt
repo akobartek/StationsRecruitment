@@ -6,6 +6,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import pl.sokolowskibartlomiej.stations.di.mainModule
+import pl.sokolowskibartlomiej.stations.di.networkModule
 
 class StationsApplication: Application() {
     override fun onCreate() {
@@ -15,7 +16,8 @@ class StationsApplication: Application() {
             androidLogger(level = Level.DEBUG)
             androidContext(this@StationsApplication)
             modules(
-                mainModule
+                networkModule,
+                mainModule,
             )
         }
     }

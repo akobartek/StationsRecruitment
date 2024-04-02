@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons)
 
+    implementation(libs.viewmodel)
+    implementation(libs.viewmodel.compose)
     implementation(libs.material)
     implementation(libs.koin)
     implementation(libs.room.runtime)
@@ -70,9 +72,7 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.datastore)
     implementation(libs.retrofit)
-    implementation(libs.moshi)
-    ksp(libs.moshi.codegen)
-    implementation(libs.retrofit.moshi)
+    implementation(libs.retrofit.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
