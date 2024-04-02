@@ -15,7 +15,15 @@ data class MainScreenUiState(
     val isLoading: Boolean = true,
     val isLoadingFailed: Boolean = false,
     val stations: List<Station> = listOf(),
-    val keywordsMap: Map<String, Station?> = mapOf()
+    val keywordsMap: Map<String, Station?> = mapOf(),
+    val departureSearching: Boolean = false,
+    val arrivalSearching: Boolean = false
+)
+
+data class MainScreenInputState(
+    val departureStation: Station? = null,
+    val arrivalStation: Station? = null,
+    val countedDistance: Float? = null
 )
 
 class MainViewModel(
@@ -24,6 +32,9 @@ class MainViewModel(
 
     private val _uiState = MutableStateFlow(MainScreenUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _inputState = MutableStateFlow(MainScreenInputState())
+    val inputState = _inputState.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -42,6 +53,44 @@ class MainViewModel(
                     currentState.copy(isLoadingFailed = true, isLoading = false)
                 }
             }
+        }
+    }
+
+    fun swapStations() {
+        _inputState.getAndUpdate { currentState ->
+            currentState.copy(
+                departureStation = currentState.arrivalStation,
+                arrivalStation = currentState.departureStation
+            )
+        }
+    }
+
+    fun toggleArrivalSearching() {
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(arrivalSearching = !currentState.arrivalSearching)
+        }
+    }
+
+    fun toggleDepartureSearching() {
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(departureSearching = !currentState.departureSearching)
+        }
+    }
+
+    fun saveSearchResult(station: Station?) {
+        _uiState.getAndUpdate { currentUiState ->
+            station?.let {
+                _inputState.getAndUpdate { currentInputState ->
+                    if (currentUiState.departureSearching)
+                        currentInputState.copy(departureStation = station)
+                    else
+                        currentInputState.copy(arrivalStation = station)
+                }
+            }
+            currentUiState.copy(
+                departureSearching = false,
+                arrivalSearching = false
+            )
         }
     }
 }

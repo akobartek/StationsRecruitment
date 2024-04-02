@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             KoinContext {
+                // TODO()
                 StationsRecruitmentTheme(
                     darkTheme = true
 //                    dynamicColor =
