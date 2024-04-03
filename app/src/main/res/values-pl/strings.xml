@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Stacje</string>
+    <string name="button_save">Zapisz</string>
+    <string name="button_cancel">Anuluj</string>
 
     <string name="departure_station">Stacja odjazdu</string>
     <string name="arrival_station">Stacja przyjazdu</string>
-    <string name="distance_result_message">Dystans pomiędzy punktami wynosi %.2f kilometrów.</string>
+    <string name="distance_result_message">Dystans pomiędzy punktami wynosi %1$.2f kilometrów.</string>
 
     <string name="search_last_searches">Ostatnie wyszukiwania (%d)</string>
     <string name="search_results">Wyniki wyszukiwania (%d)</string>
@@ -12,6 +14,21 @@
     <string name="search_empty_results">Nie znaleziono stacji dla Twojego zapytania!</string>
     <string name="search_location_unavailable_dialog_title">Lokalizacja niedostępna</string>
     <string name="search_location_unavailable_dialog_message">Lokalizacja stacji %s jest niedostępna. Spróbuj wybrać inną stację!</string>
+
+    <string name="settings">Ustawienia</string>
+    <string name="selection_setting_summary">Obecnie: %s</string>
+    <string name="theme_title">Motyw</string>
+    <string name="theme_dialog_title">Wybierz motyw</string>
+    <string name="dynamic_colors_title">Dynamiczne kolory</string>
+    <string name="dynamic_colors_summary">Podłącz aplikację do kolorów systemu</string>
+    <string name="lang_system">Domyślny systemowy</string>
+    <string name="lang_pl">Polski</string>
+    <string name="lang_en">Angielski</string>
+    <string name="language_setting_title">Język aplikacji</string>
+    <string name="language_setting_dialog_title">Wybierz twój język</string>
+    <string name="theme_system">Domyślny systemowy</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_light">Jasny</string>
 
     <string name="cd_swap_stations">Zamień stację odjazdu i przyjazdu</string>
     <string name="cd_search_for_distance">Wyszukaj odległość między stacjami</string>

@@ -8,6 +8,7 @@ import org.koin.core.logger.Level
 import pl.sokolowskibartlomiej.stations.di.databaseModule
 import pl.sokolowskibartlomiej.stations.di.mainModule
 import pl.sokolowskibartlomiej.stations.di.networkModule
+import pl.sokolowskibartlomiej.stations.di.settingsModule
 
 class StationsApplication: Application() {
     override fun onCreate() {
@@ -20,6 +21,7 @@ class StationsApplication: Application() {
                 networkModule,
                 databaseModule,
                 mainModule,
+                settingsModule
             )
         }
     }

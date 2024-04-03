@@ -1,4 +1,4 @@
-package pl.sokolowskibartlomiej.stations.presentation.viewmodel
+package pl.sokolowskibartlomiej.stations.presentation.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

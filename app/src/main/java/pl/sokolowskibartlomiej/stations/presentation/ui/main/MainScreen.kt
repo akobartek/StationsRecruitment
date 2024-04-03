@@ -46,22 +46,24 @@ import pl.sokolowskibartlomiej.stations.R
 import pl.sokolowskibartlomiej.stations.presentation.components.DistanceCalculationDrawing
 import pl.sokolowskibartlomiej.stations.presentation.components.StationField
 import pl.sokolowskibartlomiej.stations.presentation.ui.search.SearchScreen
-import pl.sokolowskibartlomiej.stations.presentation.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel = koinViewModel()
+    viewModel: MainViewModel = koinViewModel(),
+    openSettings: () -> Unit,
+    finish: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val searchState by viewModel.searchState.collectAsStateWithLifecycle()
     val searchResultState by viewModel.searchResultState.collectAsStateWithLifecycle()
 
     // TODO()
-    BackHandler(
-        enabled = !uiState.arrivalSearching && !uiState.departureSearching
-    ) {
-        viewModel.turnOffSearching()
+    BackHandler {
+        if (!uiState.arrivalSearching || !uiState.departureSearching)
+            viewModel.turnOffSearching()
+        else
+            finish()
     }
 
     Scaffold(
@@ -75,10 +77,8 @@ fun MainScreen(
                         fontStyle = FontStyle.Italic
                     )
                 },
-                actions = {
-                    IconButton(onClick = {
-                        // TODO()
-                    }) {
+                navigationIcon = {
+                    IconButton(onClick = openSettings) {
                         Icon(imageVector = Icons.Filled.Settings, contentDescription = "")
                     }
                 }
@@ -89,7 +89,7 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.background,
@@ -178,7 +178,7 @@ fun MainScreen(
                         Text(
                             text = stringResource(
                                 id = R.string.distance_result_message,
-                                uiState.calculatedDistance ?: 0
+                                uiState.calculatedDistance ?: 0.0
                             ),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()

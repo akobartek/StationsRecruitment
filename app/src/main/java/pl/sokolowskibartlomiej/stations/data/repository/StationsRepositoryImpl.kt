@@ -69,6 +69,7 @@ class StationsRepositoryImpl(
     override suspend fun saveSearchedStation(stationId: Int) =
         dao.upsertSearchedStation(SearchedStationEntity(stationId, System.currentTimeMillis()))
 
+    // TODO -> Improve calculations
     override fun calculateDistance(station1: Station, station2: Station): Double {
         val earthR = 6371.071 // Earth radius
         val latitudeDiff = (station2.latitude - station1.latitude).toRadians()

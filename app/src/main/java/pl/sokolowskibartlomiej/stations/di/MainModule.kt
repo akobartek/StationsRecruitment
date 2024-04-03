@@ -9,7 +9,7 @@ import pl.sokolowskibartlomiej.stations.domain.usecases.FilterStationsUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.GetSearchedStationsUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.LoadDataUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.SaveSelectedStationUseCase
-import pl.sokolowskibartlomiej.stations.presentation.viewmodel.MainViewModel
+import pl.sokolowskibartlomiej.stations.presentation.ui.main.MainViewModel
 
 val mainModule = module {
     single<StationsRepository> { StationsRepositoryImpl(get(), get()) }
