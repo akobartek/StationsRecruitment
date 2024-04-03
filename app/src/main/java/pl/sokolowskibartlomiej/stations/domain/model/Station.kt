@@ -11,6 +11,7 @@ data class Station(
     val city: String,
     val region: String,
     val country: String,
+    val isGroup: Boolean
 ) {
     companion object {
         fun fromRemoteObject(remoteObj: StationRemote) = Station(
@@ -21,7 +22,8 @@ data class Station(
             hits = remoteObj.hits,
             city = remoteObj.city,
             region = remoteObj.region,
-            country = remoteObj.country
+            country = remoteObj.country,
+            isGroup = remoteObj.isGroup
         )
     }
 }

@@ -1,21 +1,15 @@
 package pl.sokolowskibartlomiej.stations.presentation.ui.main
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
@@ -23,7 +17,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.TripOrigin
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import pl.sokolowskibartlomiej.stations.R
 import pl.sokolowskibartlomiej.stations.presentation.components.StationField
+import pl.sokolowskibartlomiej.stations.presentation.ui.search.SearchScreen
 import pl.sokolowskibartlomiej.stations.presentation.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +45,8 @@ fun MainScreen(
     viewModel: MainViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val inputState by viewModel.inputState.collectAsStateWithLifecycle()
+    val searchState by viewModel.searchState.collectAsStateWithLifecycle()
+    val searchResultState by viewModel.searchResultState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -89,8 +84,8 @@ fun MainScreen(
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .padding(bottom = 12.dp)
+                        .padding(8.dp)
+                        .padding(bottom = 12.dp, start = 8.dp)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -105,20 +100,20 @@ fun MainScreen(
                             StationField(
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = "Stacja początkowa",
-                                stationName = inputState.departureStation?.name ?: "",
+                                stationName = uiState.departureStation?.name ?: "",
                                 leadingIcon = Icons.Filled.TripOrigin,
                                 onClick = viewModel::toggleDepartureSearching
                             )
                             StationField(
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = "Stacja końcowa",
-                                stationName = inputState.arrivalStation?.name ?: "",
+                                stationName = uiState.arrivalStation?.name ?: "",
                                 leadingIcon = Icons.Filled.LocationOn,
                                 onClick = viewModel::toggleArrivalSearching
                             )
                         }
                         IconButton(
-                            enabled = inputState.departureStation != null || inputState.arrivalStation != null,
+                            enabled = uiState.departureStation != null || uiState.arrivalStation != null,
                             onClick = viewModel::swapStations
                         ) {
                             Icon(
@@ -151,17 +146,24 @@ fun MainScreen(
         }
     }
 
-    AnimatedVisibility(
-        visible = uiState.departureSearching || uiState.arrivalSearching,
-        enter = slideInVertically(initialOffsetY = { it }),
-        exit = slideOutVertically(targetOffsetY = { it })
-    ) {
-        Surface(
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable { viewModel.saveSearchResult(null) }) {
-            Text(text = "SEARCH SCREEN")
-        }
-    }
+    // TODO()
+    SearchScreen(
+        isVisible = uiState.departureSearching,
+        query = searchState.departureQuery,
+        label = "Stacja odjazdu",
+        searchResults = searchResultState.departureResults,
+        lastSearchedStations = searchResultState.lastSearches,
+        updateQuery = viewModel::updateDepartureQuery,
+        saveSearchResult = viewModel::saveSearchResult
+    )
+
+    SearchScreen(
+        isVisible = uiState.arrivalSearching,
+        query = searchState.arrivalQuery,
+        label = "Stacja docelowa",
+        searchResults = searchResultState.arrivalResults,
+        lastSearchedStations = searchResultState.lastSearches,
+        updateQuery = viewModel::updateArrivalQuery,
+        saveSearchResult = viewModel::saveSearchResult
+    )
 }
