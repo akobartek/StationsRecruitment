@@ -88,7 +88,7 @@ fun MainScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(top = paddingValues.calculateTopPadding())
                 .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Surface(
