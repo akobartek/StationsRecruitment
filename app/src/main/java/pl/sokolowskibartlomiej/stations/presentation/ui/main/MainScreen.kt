@@ -1,9 +1,14 @@
 package pl.sokolowskibartlomiej.stations.presentation.ui.main
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +23,7 @@ import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.TripOrigin
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,10 +37,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import pl.sokolowskibartlomiej.stations.R
+import pl.sokolowskibartlomiej.stations.presentation.components.DistanceCalculationDrawing
 import pl.sokolowskibartlomiej.stations.presentation.components.StationField
 import pl.sokolowskibartlomiej.stations.presentation.ui.search.SearchScreen
 import pl.sokolowskibartlomiej.stations.presentation.viewmodel.MainViewModel
@@ -48,13 +57,23 @@ fun MainScreen(
     val searchState by viewModel.searchState.collectAsStateWithLifecycle()
     val searchResultState by viewModel.searchResultState.collectAsStateWithLifecycle()
 
+    // TODO()
+    BackHandler(
+        enabled = !uiState.arrivalSearching && !uiState.departureSearching
+    ) {
+        viewModel.turnOffSearching()
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 colors =
                 TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
                 title = {
-                    Text(text = stringResource(id = R.string.app_name))
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        fontStyle = FontStyle.Italic
+                    )
                 },
                 actions = {
                     IconButton(onClick = {
@@ -65,11 +84,11 @@ fun MainScreen(
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.primaryContainer)
         ) {
             Surface(
@@ -96,17 +115,16 @@ fun MainScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.weight(1f)
                         ) {
-                            // TODO() App texts
                             StationField(
                                 modifier = Modifier.fillMaxWidth(),
-                                placeholder = "Stacja początkowa",
+                                placeholder = stringResource(id = R.string.departure_station),
                                 stationName = uiState.departureStation?.name ?: "",
                                 leadingIcon = Icons.Filled.TripOrigin,
                                 onClick = viewModel::toggleDepartureSearching
                             )
                             StationField(
                                 modifier = Modifier.fillMaxWidth(),
-                                placeholder = "Stacja końcowa",
+                                placeholder = stringResource(id = R.string.arrival_station),
                                 stationName = uiState.arrivalStation?.name ?: "",
                                 leadingIcon = Icons.Filled.LocationOn,
                                 onClick = viewModel::toggleArrivalSearching
@@ -119,38 +137,62 @@ fun MainScreen(
                             Icon(
                                 imageVector = Icons.Filled.SwapVert,
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                contentDescription = ""
+                                contentDescription = stringResource(id = R.string.cd_swap_stations)
                             )
                         }
                     }
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = viewModel::performCalculation,
+                        enabled =
+                        uiState.departureStation != null && uiState.arrivalStation != null && !uiState.isCalculating,
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(64.dp)
-                            .padding(top = 16.dp)
+                            .padding(top = 16.dp, end = 8.dp)
                     ) {
-                        Icon(imageVector = Icons.Filled.Search, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = stringResource(id = R.string.cd_search_for_distance)
+                        )
                     }
                 }
             }
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(32.dp)
             ) {
-                Text(text = "test")
-                // TODO()
+                if (uiState.isCalculating) {
+                    CircularProgressIndicator(modifier = Modifier.padding(vertical = 40.dp))
+                }
+                AnimatedVisibility(
+                    visible = uiState.calculatedDistance != null,
+                    enter = slideInVertically(initialOffsetY = { it }),
+                    exit = slideOutVertically(targetOffsetY = { it })
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        DistanceCalculationDrawing()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = stringResource(
+                                id = R.string.distance_result_message,
+                                uiState.calculatedDistance ?: 0
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
             }
         }
     }
 
-    // TODO()
     SearchScreen(
         isVisible = uiState.departureSearching,
         query = searchState.departureQuery,
-        label = "Stacja odjazdu",
+        label = stringResource(id = R.string.departure_station),
         searchResults = searchResultState.departureResults,
         lastSearchedStations = searchResultState.lastSearches,
         updateQuery = viewModel::updateDepartureQuery,
@@ -160,7 +202,7 @@ fun MainScreen(
     SearchScreen(
         isVisible = uiState.arrivalSearching,
         query = searchState.arrivalQuery,
-        label = "Stacja docelowa",
+        label = stringResource(id = R.string.arrival_station),
         searchResults = searchResultState.arrivalResults,
         lastSearchedStations = searchResultState.lastSearches,
         updateQuery = viewModel::updateArrivalQuery,

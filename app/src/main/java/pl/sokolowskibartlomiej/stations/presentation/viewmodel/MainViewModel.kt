@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pl.sokolowskibartlomiej.stations.domain.model.Station
+import pl.sokolowskibartlomiej.stations.domain.usecases.CalculateDistanceUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.FilterStationsUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.GetSearchedStationsUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.LoadDataUseCase
@@ -26,7 +27,8 @@ data class MainScreenUiState(
     val departureSearching: Boolean = false,
     val arrivalStation: Station? = null,
     val arrivalSearching: Boolean = false,
-    val countedDistance: Float? = null
+    val isCalculating: Boolean = false,
+    val calculatedDistance: Double? = null
 )
 
 data class SearchState(
@@ -45,7 +47,8 @@ class MainViewModel(
     private val loadDataUseCase: LoadDataUseCase,
     private val filterStationsUseCase: FilterStationsUseCase,
     private val getSearchedStationsUseCase: GetSearchedStationsUseCase,
-    private val saveSelectedStationUseCase: SaveSelectedStationUseCase
+    private val saveSelectedStationUseCase: SaveSelectedStationUseCase,
+    private val calculateDistanceUseCase: CalculateDistanceUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainScreenUiState())
@@ -117,6 +120,15 @@ class MainViewModel(
         _searchState
     }
 
+    fun turnOffSearching() {
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(
+                arrivalSearching = false,
+                departureSearching = false
+            )
+        }
+    }
+
     fun toggleArrivalSearching() {
         _uiState.getAndUpdate { currentState ->
             currentState.copy(arrivalSearching = !currentState.arrivalSearching)
@@ -151,9 +163,27 @@ class MainViewModel(
                     departureSearching = false,
                     arrivalStation =
                     if (currentState.arrivalSearching) station else currentState.arrivalStation,
-                    arrivalSearching = false
+                    arrivalSearching = false,
+                    calculatedDistance = null
                 )
             } ?: currentState.copy(departureSearching = false, arrivalSearching = false)
+        }
+    }
+
+    fun performCalculation() {
+        val state = _uiState.value
+        if (state.departureStation != null && state.arrivalStation != null) {
+            viewModelScope.launch {
+                _uiState.getAndUpdate { it.copy(isCalculating = true) }
+                _uiState.getAndUpdate { currentState ->
+                    val distance = calculateDistanceUseCase(
+                        state.departureStation,
+                        state.arrivalStation
+                    )
+                    currentState.copy(calculatedDistance = distance)
+                }
+                _uiState.getAndUpdate { it.copy(isCalculating = false) }
+            }
         }
     }
 }

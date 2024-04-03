@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stacje</string>
+
+    <string name="departure_station">Stacja odjazdu</string>
+    <string name="arrival_station">Stacja przyjazdu</string>
+    <string name="distance_result_message">Dystans pomiędzy punktami wynosi %.2f kilometrów.</string>
+
+    <string name="search_last_searches">Ostatnie wyszukiwania (%d)</string>
+    <string name="search_results">Wyniki wyszukiwania (%d)</string>
+    <string name="search_group_message">Dowolna stacja w pobliżu %s</string>
+    <string name="search_empty_results">Nie znaleziono stacji dla Twojego zapytania!</string>
+    <string name="search_location_unavailable_dialog_title">Lokalizacja niedostępna</string>
+    <string name="search_location_unavailable_dialog_message">Lokalizacja stacji %s jest niedostępna. Spróbuj wybrać inną stację!</string>
+
+    <string name="cd_swap_stations">Zamień stację odjazdu i przyjazdu</string>
+    <string name="cd_search_for_distance">Wyszukaj odległość między stacjami</string>
+    <string name="cd_close_searching">Zamknij wyszukiwanie stacji</string>
+</resources>

@@ -7,7 +7,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import pl.sokolowskibartlomiej.stations.R
 
 @Composable
 fun LocationUnavailableDialog(
@@ -18,19 +20,23 @@ fun LocationUnavailableDialog(
         AlertDialog(
             icon = { Icon(imageVector = Icons.Filled.WrongLocation, contentDescription = null) },
             title = {
-                // TODO()
                 Text(
-                    text = "Lokalizacja niedostępna",
+                    text = stringResource(id = R.string.search_location_unavailable_dialog_title),
                     textAlign = TextAlign.Center
                 )
             },
-            // TODO()
-            text = { Text(text = "Lokalizacja stacji $stationName jest niedostępna. Spróbuj wybrać inną stację!") },
+            text = {
+                Text(
+                    text = stringResource(
+                        id = R.string.search_location_unavailable_dialog_message,
+                        stationName
+                    )
+                )
+            },
             onDismissRequest = onDismissRequest,
             confirmButton = {
                 TextButton(onClick = onDismissRequest) {
-                    // TODO()
-                    Text("Ok")
+                    Text(stringResource(id = R.string.button_ok))
                 }
             },
         )

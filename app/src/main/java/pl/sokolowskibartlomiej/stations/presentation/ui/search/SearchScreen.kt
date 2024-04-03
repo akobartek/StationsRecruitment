@@ -32,10 +32,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import pl.sokolowskibartlomiej.stations.R
 import pl.sokolowskibartlomiej.stations.domain.model.Station
 import pl.sokolowskibartlomiej.stations.presentation.components.EmptySearchItem
 import pl.sokolowskibartlomiej.stations.presentation.components.LocationUnavailableDialog
@@ -92,7 +93,10 @@ fun SearchScreen(
                             modifier = Modifier.weight(1f)
                         )
                         IconButton(onClick = { saveSearchResult(null) }) {
-                            Icon(imageVector = Icons.Filled.Close, contentDescription = "")
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = stringResource(id = R.string.cd_close_searching)
+                            )
                         }
                     }
                 }
@@ -101,12 +105,13 @@ fun SearchScreen(
             val numberOfResults = stations.size
             if (numberOfResults > 0)
                 item {
-                    // TODO()
                     Text(
-                        text =
-                        if (query.isBlank() && lastSearchedStations.isNotEmpty())
-                            "Ostatnie wyszukiwania ($numberOfResults)"
-                        else "Wyniki wyszukiwania ($numberOfResults)",
+                        text = stringResource(
+                            id =
+                            if (query.isBlank() && lastSearchedStations.isNotEmpty()) R.string.search_last_searches
+                            else R.string.search_results,
+                            numberOfResults
+                        ),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface,

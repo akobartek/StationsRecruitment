@@ -43,7 +43,7 @@ fun StationField(
         Icon(
             imageVector = leadingIcon,
             tint = MaterialTheme.colorScheme.onPrimaryContainer,
-            contentDescription = ""
+            contentDescription = null
         )
         Text(
             text = stationName.ifEmpty { placeholder },

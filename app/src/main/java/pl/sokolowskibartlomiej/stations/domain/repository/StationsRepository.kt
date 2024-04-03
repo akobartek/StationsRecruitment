@@ -12,4 +12,5 @@ interface StationsRepository {
 
     suspend fun saveSearchedStation(stationId: Int)
 
+    fun calculateDistance(station1: Station, station2: Station): Double
 }

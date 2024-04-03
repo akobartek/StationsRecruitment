@@ -7,7 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import pl.sokolowskibartlomiej.stations.R
 import pl.sokolowskibartlomiej.stations.domain.model.Station
 
 @Composable
@@ -25,9 +27,8 @@ fun StationListItem(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
-        // TODO()
         val additionalInfo =
-            if (station.isGroup) "Jakikolwiek przystanek w pobliżu ${station.name}"
+            if (station.isGroup) stringResource(id = R.string.search_group_message, station.name)
             else listOf(station.city, station.region, station.country)
                 .filter { it.isNotBlank() }
                 .joinToString(separator = ", ")

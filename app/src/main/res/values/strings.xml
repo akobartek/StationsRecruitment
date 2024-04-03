@@ -1,3 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">StationsRecruitment</string>
+    <string name="app_name">Stations</string>
+    <string name="button_ok" translatable="false">OK</string>
+    
+    <string name="departure_station">Departure station</string>
+    <string name="arrival_station">Arrival station</string>
+    <string name="distance_result_message">The distance between these points is %.2f kilometers.</string>
+
+    <string name="search_last_searches">Last searches (%d)</string>
+    <string name="search_results">Search results (%d)</string>
+    <string name="search_group_message">Any stop near %s</string>
+    <string name="search_empty_results">No stations found for your query!</string>
+    <string name="search_location_unavailable_dialog_title">Location unavailable</string>
+    <string name="search_location_unavailable_dialog_message">The %s station location is unavailable. Try selecting another station!</string>
+
+    <string name="cd_swap_stations">Swap departure and arrival stations</string>
+    <string name="cd_search_for_distance">Search for distance between stations</string>
+    <string name="cd_close_searching">Close station search</string>
 </resources>
