@@ -58,7 +58,6 @@ fun MainScreen(
     val searchState by viewModel.searchState.collectAsStateWithLifecycle()
     val searchResultState by viewModel.searchResultState.collectAsStateWithLifecycle()
 
-    // TODO()
     BackHandler {
         if (!uiState.arrivalSearching || !uiState.departureSearching)
             viewModel.turnOffSearching()
