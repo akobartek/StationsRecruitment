@@ -157,11 +157,15 @@ class MainViewModel(
     }
 
     fun clearDepartureStation() {
-        _uiState.getAndUpdate { currentState -> currentState.copy(departureStation = null) }
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(departureStation = null, calculatedDistance = null)
+        }
     }
 
     fun clearArrivalStation() {
-        _uiState.getAndUpdate { currentState -> currentState.copy(arrivalStation = null) }
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(arrivalStation = null, calculatedDistance = null)
+        }
     }
 
     fun updateDepartureQuery(query: String) {
