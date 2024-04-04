@@ -21,8 +21,10 @@ private const val CACHE_CONTROL_HEADER = "Cache-Control"
 private fun provideHttpClient(appContext: Context): OkHttpClient =
     OkHttpClient.Builder()
         .cache(Cache(File(appContext.cacheDir, "http-cache"), 7 * 1024 * 1024))
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(15, TimeUnit.SECONDS)
+        .connectTimeout(5, TimeUnit.SECONDS)
+        .readTimeout(5, TimeUnit.SECONDS)
+        .writeTimeout(5, TimeUnit.SECONDS)
+        .callTimeout(10, TimeUnit.SECONDS)
         .addNetworkInterceptor { chain ->
             // process all requests to add api version header
             val request = chain.request().newBuilder()

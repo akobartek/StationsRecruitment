@@ -20,7 +20,7 @@ import pl.sokolowskibartlomiej.stations.domain.usecases.LoadDataUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.SaveSelectedStationUseCase
 
 data class MainScreenUiState(
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val isLoadingFailed: Boolean = false,
     val stations: Map<String, Station> = mapOf(),
     val departureStation: Station? = null,
@@ -99,6 +99,8 @@ class MainViewModel(
     fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                _uiState.getAndUpdate { currentState -> currentState.copy(isLoading = true) }
+
                 val loadDataResult = loadDataUseCase().first()
                 val stations = loadDataResult.getOrThrow()
                 _uiState.getAndUpdate { currentState ->
