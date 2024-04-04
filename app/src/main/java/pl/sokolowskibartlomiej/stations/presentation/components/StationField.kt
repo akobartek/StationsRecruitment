@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.TripOrigin
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -56,18 +55,18 @@ fun StationField(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun StationFieldPreviewEmptyName() {
     StationField(
         modifier = Modifier.fillMaxWidth(),
         placeholder = "Stacja końcowa",
         stationName = "",
-        leadingIcon = Icons.Filled.TripOrigin
+        leadingIcon = Icons.Filled.LocationOn
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun StationFieldPreview() {
     StationField(

@@ -3,6 +3,10 @@
     <string name="app_name">Stacje</string>
     <string name="button_save">Zapisz</string>
     <string name="button_cancel">Anuluj</string>
+    <string name="button_try_again">Spróbuj</string>
+
+    <string name="no_internet_dialog_title">Brak Internetu</string>
+    <string name="no_internet_dialog_message">Wystąpił problem z połączeniem internetowym, chcesz spróbować ponownie?</string>
 
     <string name="departure_station">Stacja odjazdu</string>
     <string name="arrival_station">Stacja przyjazdu</string>

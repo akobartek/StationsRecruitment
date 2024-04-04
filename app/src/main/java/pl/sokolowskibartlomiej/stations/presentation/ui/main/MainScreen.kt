@@ -44,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import pl.sokolowskibartlomiej.stations.R
 import pl.sokolowskibartlomiej.stations.presentation.components.DistanceCalculationDrawing
+import pl.sokolowskibartlomiej.stations.presentation.components.NoInternetDialog
 import pl.sokolowskibartlomiej.stations.presentation.components.StationField
 import pl.sokolowskibartlomiej.stations.presentation.ui.search.SearchScreen
 
@@ -188,6 +189,15 @@ fun MainScreen(
             }
         }
     }
+
+    NoInternetDialog(
+        isVisible = uiState.isLoadingFailed,
+        onReconnect = {
+            viewModel.toggleLoadingErrorDialog()
+            viewModel.loadData()
+        },
+        onDismiss = viewModel::toggleLoadingErrorDialog
+    )
 
     SearchScreen(
         isVisible = uiState.departureSearching,

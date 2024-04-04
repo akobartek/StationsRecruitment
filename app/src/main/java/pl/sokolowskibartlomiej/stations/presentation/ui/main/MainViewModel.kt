@@ -61,22 +61,7 @@ class MainViewModel(
     val searchResultState = _searchResultState.asStateFlow()
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val loadDataResult = loadDataUseCase().first()
-                val stations = loadDataResult.getOrThrow()
-                _uiState.getAndUpdate { currentState ->
-                    currentState.copy(
-                        isLoading = false,
-                        stations = stations
-                    )
-                }
-            } catch (exc: Throwable) {
-                _uiState.getAndUpdate { currentState ->
-                    currentState.copy(isLoadingFailed = true, isLoading = false)
-                }
-            }
-        }
+        loadData()
 
         viewModelScope.launch(Dispatchers.IO) {
             _searchState
@@ -108,6 +93,29 @@ class MainViewModel(
                     }
                 }
                 .stateIn(this)
+        }
+    }
+
+    fun loadData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val loadDataResult = loadDataUseCase().first()
+                val stations = loadDataResult.getOrThrow()
+                _uiState.getAndUpdate { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        stations = stations
+                    )
+                }
+            } catch (exc: Throwable) {
+                toggleLoadingErrorDialog()
+            }
+        }
+    }
+
+    fun toggleLoadingErrorDialog() {
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(isLoadingFailed = !currentState.isLoadingFailed, isLoading = false)
         }
     }
 

@@ -4,6 +4,10 @@
     <string name="button_ok" translatable="false">OK</string>
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_try_again">Try again</string>
+
+    <string name="no_internet_dialog_title">No internet connection</string>
+    <string name="no_internet_dialog_message">An error with connection occurred, do you want to try again?</string>
     
     <string name="departure_station">Departure station</string>
     <string name="arrival_station">Arrival station</string>
