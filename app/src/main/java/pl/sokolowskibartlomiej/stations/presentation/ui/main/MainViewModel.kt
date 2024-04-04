@@ -142,16 +142,24 @@ class MainViewModel(
         }
     }
 
+    fun toggleDepartureSearching() {
+        _uiState.getAndUpdate { currentState ->
+            currentState.copy(departureSearching = !currentState.departureSearching)
+        }
+    }
+
     fun toggleArrivalSearching() {
         _uiState.getAndUpdate { currentState ->
             currentState.copy(arrivalSearching = !currentState.arrivalSearching)
         }
     }
 
-    fun toggleDepartureSearching() {
-        _uiState.getAndUpdate { currentState ->
-            currentState.copy(departureSearching = !currentState.departureSearching)
-        }
+    fun clearDepartureStation() {
+        _uiState.getAndUpdate { currentState -> currentState.copy(departureStation = null) }
+    }
+
+    fun clearArrivalStation() {
+        _uiState.getAndUpdate { currentState -> currentState.copy(arrivalStation = null) }
     }
 
     fun updateDepartureQuery(query: String) {

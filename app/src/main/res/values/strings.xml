@@ -6,6 +6,8 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_try_again">Try again</string>
 
+    <string name="not_yet_implemented">Feature not yet implemented, stay tuned for updates!</string>
+
     <string name="no_internet_dialog_title">No internet connection</string>
     <string name="no_internet_dialog_message">An error with connection occurred, do you want to try again?</string>
     
@@ -37,5 +39,6 @@
 
     <string name="cd_swap_stations">Swap departure and arrival stations</string>
     <string name="cd_search_for_distance">Search for distance between stations</string>
+    <string name="cd_current_location">Get closest station</string>
     <string name="cd_close_searching">Close station search</string>
 </resources>

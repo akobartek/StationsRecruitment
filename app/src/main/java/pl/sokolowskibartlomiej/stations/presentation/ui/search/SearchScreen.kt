@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import pl.sokolowskibartlomiej.stations.R
 import pl.sokolowskibartlomiej.stations.domain.model.Station
-import pl.sokolowskibartlomiej.stations.presentation.components.EmptySearchItem
+import pl.sokolowskibartlomiej.stations.presentation.components.EmptySearch
 import pl.sokolowskibartlomiej.stations.presentation.components.LocationUnavailableDialog
 import pl.sokolowskibartlomiej.stations.presentation.components.StationListItem
 
@@ -145,7 +145,7 @@ fun SearchScreen(
             }
 
             if (query.isNotBlank() && stations.isEmpty())
-                item { EmptySearchItem() }
+                item { EmptySearch() }
 
             item { Spacer(modifier = Modifier.height(36.dp)) }
         }

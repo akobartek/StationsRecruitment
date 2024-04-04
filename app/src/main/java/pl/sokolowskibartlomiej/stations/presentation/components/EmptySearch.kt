@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import pl.sokolowskibartlomiej.stations.R
 
 @Composable
-fun EmptySearchItem() {
+fun EmptySearch() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

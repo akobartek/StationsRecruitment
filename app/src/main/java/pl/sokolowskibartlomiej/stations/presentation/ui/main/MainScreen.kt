@@ -121,14 +121,16 @@ fun MainScreen(
                                 placeholder = stringResource(id = R.string.departure_station),
                                 stationName = uiState.departureStation?.name ?: "",
                                 leadingIcon = Icons.Filled.TripOrigin,
-                                onClick = viewModel::toggleDepartureSearching
+                                onClick = viewModel::toggleDepartureSearching,
+                                onClear = viewModel::clearDepartureStation
                             )
                             StationField(
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = stringResource(id = R.string.arrival_station),
                                 stationName = uiState.arrivalStation?.name ?: "",
                                 leadingIcon = Icons.Filled.LocationOn,
-                                onClick = viewModel::toggleArrivalSearching
+                                onClick = viewModel::toggleArrivalSearching,
+                                onClear = viewModel::clearArrivalStation
                             )
                         }
                         IconButton(
