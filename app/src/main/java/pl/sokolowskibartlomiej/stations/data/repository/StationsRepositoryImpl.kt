@@ -69,18 +69,20 @@ class StationsRepositoryImpl(
     override suspend fun saveSearchedStation(stationId: Int) =
         dao.upsertSearchedStation(SearchedStationEntity(stationId, System.currentTimeMillis()))
 
-    // TODO -> Improve calculations
     override fun calculateDistance(station1: Station, station2: Station): Double {
-        val earthR = 6371.071 // Earth radius
+        val earthRadius = 6371
+        val lat1Radians = station1.latitude.toRadians()
+        val lat2Radians = station2.latitude.toRadians()
         val latitudeDiff = (station2.latitude - station1.latitude).toRadians()
         val longitudeDiff = (station2.longitude - station1.longitude).toRadians()
 
         // Haversine formula
-        return 2 * earthR * asin(
+        return 2 * asin(
             sqrt(
-                sin(latitudeDiff / 2).pow(2) + cos(station1.latitude) * cos(station2.latitude) * sin(longitudeDiff).pow(2)
+                sin(latitudeDiff / 2).pow(2) +
+                        cos(lat1Radians) * cos(lat2Radians) * sin(longitudeDiff / 2).pow(2)
             )
-        )
+        ) * earthRadius
     }
 
     private fun Double.toRadians() = this * (Math.PI / 180)

@@ -6,7 +6,7 @@
 
     <string name="departure_station">Stacja odjazdu</string>
     <string name="arrival_station">Stacja przyjazdu</string>
-    <string name="distance_result_message">Dystans pomiędzy punktami wynosi około %1$.2f kilometrów.</string>
+    <string name="distance_result_message">Dystans pomiędzy punktami wynosi około %1$.3f kilometrów.</string>
 
     <string name="search_last_searches">Ostatnie wyszukiwania (%d)</string>
     <string name="search_results">Wyniki wyszukiwania (%d)</string>

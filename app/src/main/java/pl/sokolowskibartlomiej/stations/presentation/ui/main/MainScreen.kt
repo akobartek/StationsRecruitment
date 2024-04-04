@@ -180,6 +180,7 @@ fun MainScreen(
                                 uiState.calculatedDistance ?: 0.0
                             ),
                             textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }

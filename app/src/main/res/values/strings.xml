@@ -7,7 +7,7 @@
     
     <string name="departure_station">Departure station</string>
     <string name="arrival_station">Arrival station</string>
-    <string name="distance_result_message">The distance between these points is approximately %1$.2f kilometers.</string>
+    <string name="distance_result_message">The distance between these points is approximately %1$.3f kilometers.</string>
 
     <string name="search_last_searches">Last searches (%d)</string>
     <string name="search_results">Search results (%d)</string>
