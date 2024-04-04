@@ -2,4 +2,4 @@
 
 **Jak uruchomić?**
 1. Sklonuj repozytorium oraz otwórz w Android Studio, następnie skompiluj i uruchom na urządzeniu lub emulatorze.
-2. Przygotowany plik .apk umieść na telefonie lub emulatorze, następnie zainstaluj go.
+2. Przygotowany plik .apk umieść na telefonie lub emulatorze, następnie uruchom go.
