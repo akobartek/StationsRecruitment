@@ -60,7 +60,7 @@ fun MainScreen(
 
     BackHandler {
         if (!uiState.arrivalSearching || !uiState.departureSearching)
-            viewModel.turnOffSearching()
+            viewModel.saveSearchResult()
         else
             finish()
     }
@@ -193,6 +193,7 @@ fun MainScreen(
         isVisible = uiState.departureSearching,
         query = searchState.departureQuery,
         label = stringResource(id = R.string.departure_station),
+        leadingIcon = Icons.Filled.TripOrigin,
         searchResults = searchResultState.departureResults,
         lastSearchedStations = searchResultState.lastSearches,
         updateQuery = viewModel::updateDepartureQuery,
@@ -203,6 +204,7 @@ fun MainScreen(
         isVisible = uiState.arrivalSearching,
         query = searchState.arrivalQuery,
         label = stringResource(id = R.string.arrival_station),
+        leadingIcon = Icons.Filled.LocationOn,
         searchResults = searchResultState.arrivalResults,
         lastSearchedStations = searchResultState.lastSearches,
         updateQuery = viewModel::updateArrivalQuery,

@@ -84,7 +84,8 @@ class MainViewModel(
                 .combine(_uiState) { searchState, uiState ->
                     val currentQuery =
                         if (uiState.departureSearching) searchState.departureQuery
-                        else searchState.arrivalQuery
+                        else if (uiState.arrivalSearching) searchState.arrivalQuery
+                        else return@combine
 
                     val stations = filterStationsUseCase(currentQuery, uiState.stations)
                     _searchResultState.getAndUpdate { currentState ->
@@ -117,14 +118,16 @@ class MainViewModel(
                 arrivalStation = currentState.departureStation
             )
         }
-        _searchState
-    }
-
-    fun turnOffSearching() {
-        _uiState.getAndUpdate { currentState ->
+        _searchState.getAndUpdate { currentState ->
             currentState.copy(
-                arrivalSearching = false,
-                departureSearching = false
+                departureQuery = currentState.arrivalQuery,
+                arrivalQuery = currentState.departureQuery
+            )
+        }
+        _searchResultState.getAndUpdate { currentState ->
+            currentState.copy(
+                departureResults = currentState.arrivalResults,
+                arrivalResults = currentState.departureResults
             )
         }
     }
@@ -153,7 +156,7 @@ class MainViewModel(
         }
     }
 
-    fun saveSearchResult(station: Station?) {
+    fun saveSearchResult(station: Station? = null) {
         _uiState.getAndUpdate { currentState ->
             station?.let {
                 viewModelScope.launch(Dispatchers.IO) { saveSelectedStationUseCase(it.id) }

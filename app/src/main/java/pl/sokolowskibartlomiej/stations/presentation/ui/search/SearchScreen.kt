@@ -25,12 +25,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +50,7 @@ fun SearchScreen(
     isVisible: Boolean = true,
     query: String = "",
     label: String = "",
+    leadingIcon: ImageVector,
     searchResults: List<Station> = listOf(),
     lastSearchedStations: List<Station> = listOf(),
     updateQuery: (String) -> Unit = {},
@@ -58,6 +61,10 @@ fun SearchScreen(
     val stations =
         if (query.isBlank() && lastSearchedStations.isNotEmpty()) lastSearchedStations
         else searchResults
+
+    LaunchedEffect(isVisible) {
+        focusManager.clearFocus(true)
+    }
 
     AnimatedVisibility(
         visible = isVisible,
@@ -89,6 +96,9 @@ fun SearchScreen(
                             value = query,
                             onValueChange = updateQuery,
                             label = { Text(text = label) },
+                            leadingIcon = {
+                                Icon(imageVector = leadingIcon, contentDescription = null)
+                            },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
@@ -128,10 +138,8 @@ fun SearchScreen(
                     modifier = Modifier.clickable {
                         if (station.longitude == 0.0 || station.latitude == 0.0)
                             locationUnavailableStationName = station.name
-                        else {
-                            focusManager.clearFocus(true)
+                        else
                             saveSearchResult(station)
-                        }
                     }
                 )
             }
