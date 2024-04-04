@@ -10,6 +10,9 @@
 
     <string name="no_internet_dialog_title">No internet connection</string>
     <string name="no_internet_dialog_message">An error with connection occurred, do you want to try again?</string>
+
+    <string name="permission_denied_dialog_title">Permission denied</string>
+    <string name="permission_denied_dialog_message">This feature require location permission, which was denied. You can change it in settings.</string>
     
     <string name="departure_station">Departure station</string>
     <string name="arrival_station">Arrival station</string>

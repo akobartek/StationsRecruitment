@@ -6,6 +6,7 @@ import pl.sokolowskibartlomiej.stations.data.repository.StationsRepositoryImpl
 import pl.sokolowskibartlomiej.stations.domain.repository.StationsRepository
 import pl.sokolowskibartlomiej.stations.domain.usecases.CalculateDistanceUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.FilterStationsUseCase
+import pl.sokolowskibartlomiej.stations.domain.usecases.FindClosestStationUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.GetSearchedStationsUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.LoadDataUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.SaveSelectedStationUseCase
@@ -18,6 +19,7 @@ val mainModule = module {
     single { GetSearchedStationsUseCase(get()) }
     single { SaveSelectedStationUseCase(get()) }
     single { CalculateDistanceUseCase(get()) }
+    single { FindClosestStationUseCase(get()) }
 
-    viewModel { MainViewModel(get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get()) }
 }

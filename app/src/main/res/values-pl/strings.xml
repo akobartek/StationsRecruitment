@@ -10,6 +10,9 @@
     <string name="no_internet_dialog_title">Brak Internetu</string>
     <string name="no_internet_dialog_message">Wystąpił problem z połączeniem internetowym, chcesz spróbować ponownie?</string>
 
+    <string name="permission_denied_dialog_title">Brak uprawnień</string>
+    <string name="permission_denied_dialog_message">Ta funkcja wymaga pozwolenia na lokalizację, które zostało odrzucone. Możesz to zmienić w ustawieniach.</string>
+
     <string name="departure_station">Stacja odjazdu</string>
     <string name="arrival_station">Stacja przyjazdu</string>
     <string name="distance_result_message">Dystans pomiędzy punktami wynosi około %1$.3f kilometrów.</string>

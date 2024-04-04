@@ -122,7 +122,10 @@ fun MainScreen(
                                 stationName = uiState.departureStation?.name ?: "",
                                 leadingIcon = Icons.Filled.TripOrigin,
                                 onClick = viewModel::toggleDepartureSearching,
-                                onClear = viewModel::clearDepartureStation
+                                onClear = viewModel::clearDepartureStation,
+                                findStation = { lat, lon ->
+                                    viewModel.findClosestStation(lat, lon, true)
+                                }
                             )
                             StationField(
                                 modifier = Modifier.fillMaxWidth(),
@@ -130,7 +133,10 @@ fun MainScreen(
                                 stationName = uiState.arrivalStation?.name ?: "",
                                 leadingIcon = Icons.Filled.LocationOn,
                                 onClick = viewModel::toggleArrivalSearching,
-                                onClear = viewModel::clearArrivalStation
+                                onClear = viewModel::clearArrivalStation,
+                                findStation = { lat, lon ->
+                                    viewModel.findClosestStation(lat, lon, false)
+                                }
                             )
                         }
                         IconButton(

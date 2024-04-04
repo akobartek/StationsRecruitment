@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.play.services)
+    implementation(libs.play.services.coroutines)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import pl.sokolowskibartlomiej.stations.domain.model.Station
 import pl.sokolowskibartlomiej.stations.domain.usecases.CalculateDistanceUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.FilterStationsUseCase
+import pl.sokolowskibartlomiej.stations.domain.usecases.FindClosestStationUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.GetSearchedStationsUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.LoadDataUseCase
 import pl.sokolowskibartlomiej.stations.domain.usecases.SaveSelectedStationUseCase
@@ -48,7 +49,8 @@ class MainViewModel(
     private val filterStationsUseCase: FilterStationsUseCase,
     private val getSearchedStationsUseCase: GetSearchedStationsUseCase,
     private val saveSelectedStationUseCase: SaveSelectedStationUseCase,
-    private val calculateDistanceUseCase: CalculateDistanceUseCase
+    private val calculateDistanceUseCase: CalculateDistanceUseCase,
+    private val findClosestStationUseCase: FindClosestStationUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainScreenUiState())
@@ -204,6 +206,22 @@ class MainViewModel(
                     currentState.copy(calculatedDistance = distance)
                 }
                 _uiState.getAndUpdate { it.copy(isCalculating = false) }
+            }
+        }
+    }
+
+    fun findClosestStation(latitude: Double, longitude: Double, isDeparture: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.getAndUpdate { currentState -> currentState.copy(isLoading = true) }
+            val stations = uiState.value.stations.values.toList()
+                .filter { it.latitude != 0.0 && it.longitude != 0.0 }
+                .sortedByDescending { it.hits }
+            val station = findClosestStationUseCase(latitude, longitude, stations)
+            _uiState.getAndUpdate { currentState ->
+                if (isDeparture)
+                    currentState.copy(isLoading = false, departureStation = station)
+                else
+                    currentState.copy(isLoading = false, arrivalStation = station)
             }
         }
     }

@@ -69,12 +69,20 @@ class StationsRepositoryImpl(
     override suspend fun saveSearchedStation(stationId: Int) =
         dao.upsertSearchedStation(SearchedStationEntity(stationId, System.currentTimeMillis()))
 
-    override fun calculateDistance(station1: Station, station2: Station): Double {
+    override fun calculateDistance(station1: Station, station2: Station): Double =
+        calculateDistance(
+            station1.latitude,
+            station1.longitude,
+            station2.latitude,
+            station2.longitude
+        )
+
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         val earthRadius = 6371
-        val lat1Radians = station1.latitude.toRadians()
-        val lat2Radians = station2.latitude.toRadians()
-        val latitudeDiff = (station2.latitude - station1.latitude).toRadians()
-        val longitudeDiff = (station2.longitude - station1.longitude).toRadians()
+        val lat1Radians = lat1.toRadians()
+        val lat2Radians = lat2.toRadians()
+        val latitudeDiff = (lat2 - lat1).toRadians()
+        val longitudeDiff = (lon2 - lon1).toRadians()
 
         // Haversine formula
         return 2 * asin(
@@ -86,4 +94,24 @@ class StationsRepositoryImpl(
     }
 
     private fun Double.toRadians() = this * (Math.PI / 180)
+
+    override fun findClosestStation(
+        latitude: Double,
+        longitude: Double,
+        stations: List<Station>
+    ): Station? {
+        if (stations.isEmpty()) return null
+
+        var closestStation = stations[0]
+        var shortestDistance = calculateDistance(latitude, longitude, closestStation.latitude, closestStation.longitude)
+
+        stations.forEach { station ->
+            val distance = calculateDistance(latitude, longitude, station.latitude, station.longitude)
+            if (distance < shortestDistance) {
+                shortestDistance = distance
+                closestStation = station
+            }
+        }
+        return closestStation
+    }
 }

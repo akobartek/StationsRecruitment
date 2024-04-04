@@ -13,4 +13,6 @@ interface StationsRepository {
     suspend fun saveSearchedStation(stationId: Int)
 
     fun calculateDistance(station1: Station, station2: Station): Double
+
+    fun findClosestStation(latitude: Double, longitude: Double, stations: List<Station>): Station?
 }
