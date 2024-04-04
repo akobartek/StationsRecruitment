@@ -1,12 +1,7 @@
 package pl.sokolowskibartlomiej.stations.presentation.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -14,6 +9,7 @@ import androidx.compose.material.icons.filled.TripOrigin
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
@@ -25,18 +21,28 @@ import androidx.compose.ui.unit.dp
 fun DistanceCalculationDrawing(modifier: Modifier = Modifier) {
     val lineColor = MaterialTheme.colorScheme.onSurface
 
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.height(200.dp)
+    Box(
+        modifier = modifier.size(width = 220.dp, height = 200.dp)
     ) {
         Icon(
             imageVector = Icons.Filled.TripOrigin,
             contentDescription = null,
             modifier = Modifier
-                .padding(end = 4.dp)
+                .align(Alignment.TopStart)
                 .size(20.dp)
         )
-        Canvas(modifier = modifier.size(width = 200.dp, height = 200.dp)) {
+        Icon(
+            imageVector = Icons.Filled.LocationOn,
+            contentDescription = null,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .size(20.dp)
+        )
+        Canvas(
+            modifier = modifier
+                .align(Alignment.Center)
+                .size(200.dp)
+        ) {
             val width = size.width
             val height = size.height
             val path = Path().apply {
@@ -73,10 +79,10 @@ fun DistanceCalculationDrawing(modifier: Modifier = Modifier) {
                     height.times(.7f),
                     width.times(.4f),
                     height.times(.85f),
-                    width,
-                    height.times(.91f)
+                    width.times(.96f),
+                    height.times(.95f)
                 )
-                moveTo(width, height.times(.91f))
+                moveTo(width.times(.96f), height.times(.95f))
                 close()
             }
             drawPath(
@@ -86,16 +92,6 @@ fun DistanceCalculationDrawing(modifier: Modifier = Modifier) {
                     width = 3.dp.toPx(),
                     pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
                 )
-            )
-        }
-        Column {
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.Filled.LocationOn,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 2.dp, bottom = 8.dp)
-                    .size(20.dp)
             )
         }
     }

@@ -168,8 +168,8 @@ fun MainScreen(
                 }
                 AnimatedVisibility(
                     visible = uiState.calculatedDistance != null,
-                    enter = slideInVertically(initialOffsetY = { it }),
-                    exit = slideOutVertically(targetOffsetY = { it })
+                    enter = slideInVertically(initialOffsetY = { it * 2 }),
+                    exit = slideOutVertically(targetOffsetY = { it * 2 })
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         DistanceCalculationDrawing()
